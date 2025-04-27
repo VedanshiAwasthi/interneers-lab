@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models.ProductModel import Product
 from .models.CategoryModel import ProductCategory
 from bson import ObjectId
+from bson.errors import InvalidId
 
 class ProductCategorySerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
@@ -44,14 +45,22 @@ class ProductSerializer(serializers.Serializer):
 
     def validate_category(self, value):
 
+        print(value,"d")
         if not isinstance(value, list):
             raise serializers.ValidationError("Category must be a list of valid category IDs.")
         
-        categories = ProductCategory.objects(title__in=value)
-        if len(categories) != len(value):
+        try:
+            category_ids = [ObjectId(cid) for cid in value]
+            print("dddd" , category_ids)
+        except (InvalidId, TypeError, ValueError) as e:
+            raise serializers.ValidationError(f"One or more category IDs are invalid: {str(e)}")
+
+
+        categories = ProductCategory.objects(id__in=category_ids)
+        if len(categories) != len(category_ids):
             raise serializers.ValidationError("Some categories are invalid.")
-        
-        return categories
+
+        return list(categories)
     
     def create(self, validated_data):
         
@@ -61,28 +70,19 @@ class ProductSerializer(serializers.Serializer):
         return product
 
     def update(self, instance, validated_data):
-    
+        
         for key, value in validated_data.items():
             if key == "category":
-                if not isinstance(value, list):  # Ensure value is a list
-                    raise serializers.ValidationError("Category must be a list of ObjectIds.")
-                
-                try:
-                    # Convert category IDs to ObjectId format
-                    category_ids = [ObjectId(cid) for cid in value]
-                except Exception:
-                    raise serializers.ValidationError("Invalid category ID format.")
-                
-                categories = ProductCategory.objects(id__in=category_ids)
-                if len(categories) != len(category_ids):
-                    raise serializers.ValidationError("Some categories are invalid.")
-                
-                instance.category = list(categories)
+                print("Categories from validated_data:", value)
+                # value is already a list of ProductCategory objects
+                instance.category = value
             else:
                 setattr(instance, key, value)
-        
+
         instance.save()
         return instance
+
+
 
     def to_representation(self, instance):
 
