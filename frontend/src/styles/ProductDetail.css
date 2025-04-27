@@ -1,0 +1,99 @@
+.product-detail {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.product-detail h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-detail p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-detail button {
+  margin-right: 10px;
+  margin-top: 1rem;
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #1a4675;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.product-detail button:hover {
+  background-color: #0056b3;
+}
+
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.upload-form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.upload-form input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s ease-in-out;
+}
+
+.upload-form input:focus {
+  border-color: #007bff;
+}
+
+.upload-form button {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.upload-form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.upload-form button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.upload-form button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.upload-form button[type="button"]:hover {
+  background-color: #c82333;
+}
